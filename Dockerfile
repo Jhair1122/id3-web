@@ -1,8 +1,11 @@
 FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
-# Forzar descarga de todas las dependencias, incluyendo Weka
-RUN mvn dependency:go-offline -B -X
+# Instalar el JAR local de Weka en el repositorio de Maven
+COPY src/main/resources/lib/weka-stable-3.8.6.jar /tmp/weka.jar
+RUN mvn install:install-file -Dfile=/tmp/weka.jar -DgroupId=nz.ac.waikato.cms.weka -DartifactId=weka-stable -Dversion=3.8.6 -Dpackaging=jar
+# Descargar otras dependencias
+RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests
 
