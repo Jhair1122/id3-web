@@ -1,4 +1,3 @@
-// src/main/java/com/example/id3web/util/GainCalculator.java
 package com.example.id3web.util;
 
 import weka.core.Attribute;
@@ -61,7 +60,6 @@ public class GainCalculator {
         List<Map<String, Object>> gainList = new ArrayList<>();
         for (int i = 0; i < data.numAttributes() - 1; i++) {
             Attribute attr = data.attribute(i);
-            Map<String, Integer> classCountsPerValue = new HashMap<>();
             Map<String, Map<String, Integer>> valueToClassCounts = new HashMap<>();
 
             for (Instance inst : data) {
