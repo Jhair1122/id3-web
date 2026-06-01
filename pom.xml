@@ -37,8 +37,10 @@
         <!-- Weka dependencia estable -->
         <dependency>
                  <groupId>nz.ac.waikato.cms.weka</groupId>
-                 <artifactId>weka-stable</artifactId>
-                 <version>3.8.6</version>
+                 <artifactId>weka-monolithic</artifactId>
+                 <version>3.8.0</version>
+                 <scope>system</scope>
+                 <systemPath>${project.basedir}/src/main/resources/lib/weka-3-8-0-monolithic.jar</systemPath>
         </dependency>
     </dependencies>
     <build>
