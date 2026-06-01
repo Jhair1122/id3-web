@@ -1,23 +1,14 @@
-# Usa una imagen oficial de Java 17
-FROM openjdk:17-jdk-slim
-
-# Directorio de trabajo dentro del contenedor
+# Etapa de construcción
+FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
-
-# Copiar el archivo pom.xml y descargar dependencias (capa cacheable)
 COPY pom.xml .
-RUN apt-get update && apt-get install -y maven && \
-    mvn dependency:go-offline && \
-    apt-get remove -y maven && apt-get autoremove -y
-
-# Copiar el resto del código fuente
+RUN mvn dependency:go-offline
 COPY src ./src
+RUN mvn package -DskipTests
 
-# Compilar y empaquetar la aplicación
-RUN mvn clean package -DskipTests
-
-# Exponer el puerto que usará Spring Boot
+# Etapa de ejecución
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /app
+COPY --from=build /app/target/id3-web-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Comando para ejecutar la aplicación
-CMD ["java", "-jar", "target/id3-web-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
