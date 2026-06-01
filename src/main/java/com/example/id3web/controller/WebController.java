@@ -1,16 +1,11 @@
-// src/main/java/com/example/id3web/controller/WebController.java
 package com.example.id3web.controller;
 
 import com.example.id3web.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import weka.core.Instance;
-import weka.core.Instances;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -37,20 +32,19 @@ public class WebController {
 
     @GetMapping("/api/dataset")
     public ResponseEntity<Map<String, Object>> getDataset() {
-        Instances data = modelService.getData();
+        weka.core.Instances data = modelService.getData();
         List<String> attributeNames = IntStream.range(0, data.numAttributes())
                 .mapToObj(i -> data.attribute(i).name())
                 .collect(Collectors.toList());
 
-        List<Map<String, String>> rows = data.stream()
-                .map(inst -> {
-                    Map<String, String> row = new HashMap<>();
-                    for (int i = 0; i < data.numAttributes(); i++) {
-                        row.put(data.attribute(i).name(), inst.stringValue(data.attribute(i)));
-                    }
-                    return row;
-                })
-                .collect(Collectors.toList());
+        List<Map<String, String>> rows = new ArrayList<>();
+        for (weka.core.Instance inst : data) {
+            Map<String, String> row = new HashMap<>();
+            for (int i = 0; i < data.numAttributes(); i++) {
+                row.put(data.attribute(i).name(), inst.stringValue(data.attribute(i)));
+            }
+            rows.add(row);
+        }
 
         Map<String, Object> response = new HashMap<>();
         response.put("attributes", attributeNames);
