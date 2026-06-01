@@ -1,4 +1,3 @@
-// src/main/java/com/example/id3web/service/ModelService.java
 package com.example.id3web.service;
 
 import com.example.id3web.util.GainCalculator;
@@ -10,11 +9,7 @@ import weka.core.converters.ArffLoader;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ModelService {
@@ -73,9 +68,14 @@ public class ModelService {
     public List<String> getAttributeValues(String attributeName) {
         Attribute attr = data.attribute(attributeName);
         if (attr != null && attr.isNominal()) {
-            return Collections.list(attr.enumerateValues());
+            List<String> values = new ArrayList<>();
+            Enumeration<?> enu = attr.enumerateValues();
+            while (enu.hasMoreElements()) {
+                values.add((String) enu.nextElement());
+            }
+            return values;
         }
-        return List.of();
+        return new ArrayList<>();
     }
 
     public List<String> getAttributeNames() {
