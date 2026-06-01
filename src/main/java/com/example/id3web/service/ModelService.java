@@ -8,7 +8,6 @@ import weka.core.*;
 import weka.core.converters.ArffLoader;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -19,32 +18,21 @@ public class ModelService {
 
     @PostConstruct
     public void init() throws Exception {
-        // Load ARFF from resources
         ClassPathResource resource = new ClassPathResource("data/lluvioso.arff");
         ArffLoader loader = new ArffLoader();
         loader.setSource(resource.getFile());
         data = loader.getDataSet();
         data.setClassIndex(data.numAttributes() - 1);
 
-        // Train ID3 classifier
         classifier = new Id3();
         classifier.buildClassifier(data);
 
-        // Gain calculator for display
         gainCalculator = new GainCalculator(data);
     }
 
-    public Instances getData() {
-        return data;
-    }
-
-    public Id3 getClassifier() {
-        return classifier;
-    }
-
-    public String getTreeDot() {
-        return classifier.graph();
-    }
+    public Instances getData() { return data; }
+    public Id3 getClassifier() { return classifier; }
+    public String getTreeDot() { return classifier.graph(); }
 
     public Map<String, Object> getGainInfo() {
         Map<String, Object> result = new HashMap<>();
@@ -55,7 +43,6 @@ public class ModelService {
     }
 
     public String predict(String temperatura, String humedad, String viento) throws Exception {
-        // Create new instance with same structure
         Instance newInst = new DenseInstance(data.numAttributes());
         newInst.setDataset(data);
         newInst.setValue(data.attribute("Temperatura"), temperatura);
@@ -67,22 +54,17 @@ public class ModelService {
 
     public List<String> getAttributeValues(String attributeName) {
         Attribute attr = data.attribute(attributeName);
+        List<String> values = new ArrayList<>();
         if (attr != null && attr.isNominal()) {
-            List<String> values = new ArrayList<>();
             Enumeration<?> enu = attr.enumerateValues();
-            while (enu.hasMoreElements()) {
-                values.add((String) enu.nextElement());
-            }
-            return values;
+            while (enu.hasMoreElements()) values.add((String) enu.nextElement());
         }
-        return new ArrayList<>();
+        return values;
     }
 
     public List<String> getAttributeNames() {
         List<String> names = new ArrayList<>();
-        for (int i = 0; i < data.numAttributes() - 1; i++) {
-            names.add(data.attribute(i).name());
-        }
+        for (int i = 0; i < data.numAttributes() - 1; i++) names.add(data.attribute(i).name());
         return names;
     }
 }
