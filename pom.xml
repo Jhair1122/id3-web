@@ -18,6 +18,12 @@
     <properties>
         <java.version>17</java.version>
     </properties>
+    <repositories>
+        <repository>
+            <id>waikato</id>
+            <url>https://repo.cms.waikato.ac.nz/nexus/content/groups/ubuntu/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -25,8 +31,8 @@
         </dependency>
         <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
-            <artifactId>weka-stable</artifactId>
-            <version>3.8.6</version>
+            <artifactId>weka-dev</artifactId>
+            <version>3.9.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
