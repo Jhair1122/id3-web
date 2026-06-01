@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: id3-weka-tree
+    runtime: image
+    repo: https://github.com/tu-usuario/id3-web
+    plan: free
+    envVars:
+      - key: JAVA_VERSION
+        value: 17
+    buildCommand: mvn clean package
+    startCommand: java -jar target/id3-web-0.0.1-SNAPSHOT.jar

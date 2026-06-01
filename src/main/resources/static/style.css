@@ -1,0 +1,203 @@
+/* src/main/resources/static/style.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, 'Segoe UI', 'Inter', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9eef3 100%);
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.2rem;
+    background: linear-gradient(120deg, #1e3c72, #2a5298);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 1.8rem;
+}
+
+.card {
+    background: white;
+    border-radius: 1.2rem;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+    border-left: 5px solid #3b82f6;
+    padding-left: 0.75rem;
+}
+
+.gain-container {
+    overflow-x: auto;
+}
+
+.gain-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.gain-table th, .gain-table td {
+    border: 1px solid #e2e8f0;
+    padding: 0.6rem;
+    text-align: center;
+}
+
+.gain-table th {
+    background: #f1f5f9;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.gain-table tr:nth-child(even) {
+    background: #f8fafc;
+}
+
+.high-gain {
+    background-color: #dcfce7;
+    font-weight: bold;
+}
+
+.entropy-info {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #f1f5f9;
+    border-radius: 0.75rem;
+    font-size: 0.85rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    color: #334155;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 0.6rem;
+    border: 1px solid #cbd5e1;
+    background: white;
+    font-size: 0.9rem;
+}
+
+.btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.6rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    background: #2563eb;
+}
+
+.prediction-result {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.prediction-result.p {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.prediction-result.n {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.dataset-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 0.8rem;
+}
+
+.dataset-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dataset-table th, .dataset-table td {
+    border: 1px solid #e2e8f0;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.tree-container {
+    background: #ffffff;
+    border-radius: 0.8rem;
+    min-height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+}
+
+.tree-container svg {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+.loading {
+    color: #64748b;
+    font-style: italic;
+}
+
+@media (max-width: 900px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
+    body {
+        padding: 1rem;
+    }
+}

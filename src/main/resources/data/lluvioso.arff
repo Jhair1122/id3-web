@@ -1,0 +1,13 @@
+@relation lluvioso_id3
+
+@attribute Temperatura {Templado, Fría}
+@attribute Humedad {Alta, Normal}
+@attribute Viento {No, Si}
+@attribute Clase {P, N}
+
+@data
+Templado,Alta,No,P
+Fría,Normal,No,P
+Fría,Normal,Si,N
+Templado,Normal,No,P
+Templado,Alta,Si,N

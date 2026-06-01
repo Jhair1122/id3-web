@@ -1,0 +1,1 @@
+web: java -jar target/id3-web-0.0.1-SNAPSHOT.jar

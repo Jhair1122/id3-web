@@ -1,0 +1,64 @@
+<!-- src/main/resources/static/index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID3 Decision Tree - Weka</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/viz.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/viz.js@2.1.2/full.render.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌳 Algoritmo ID3 con Weka</h1>
+            <p>Árbol de decisión entrenado con datos de la segunda imagen (Lluvioso). Ganancia de información y predicción.</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Panel izquierdo: Info, ganancias, predicción -->
+            <div class="info-panel">
+                <div class="card">
+                    <h2>📊 Ganancia de Información</h2>
+                    <div id="gain-table" class="gain-container">Cargando...</div>
+                    <div class="entropy-info" id="entropy-info"></div>
+                </div>
+
+                <div class="card">
+                    <h2>🔮 Predecir Clase</h2>
+                    <form id="prediction-form">
+                        <div class="form-group" id="form-fields"></div>
+                        <button type="submit" class="btn">Predecir</button>
+                        <div id="prediction-result" class="prediction-result"></div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h2>📋 Conjunto de Datos</h2>
+                    <div id="dataset-table" class="dataset-scroll">Cargando...</div>
+                </div>
+            </div>
+
+            <!-- Panel derecho: Árbol gráfico -->
+            <div class="tree-panel">
+                <div class="card tree-card">
+                    <h2>🌿 Árbol de Decisión ID3</h2>
+                    <div id="tree-graph" class="tree-container">
+                        <div class="loading">Generando gráfico...</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h2>📐 Interpretación</h2>
+                    <p>El atributo <strong>Viento</strong> tiene la mayor ganancia (0.97095), por lo que es la raíz del árbol.<br>
+                    Si <strong>Viento = No</strong> → Clase <strong>P</strong> (Play).<br>
+                    Si <strong>Viento = Si</strong> → Clase <strong>N</strong> (No Play).<br>
+                    Coincide con el cálculo de la segunda imagen.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
