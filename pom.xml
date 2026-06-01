@@ -1,31 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-         https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
-        <relativePath/>
-    </parent>
-    <groupId>com.example</groupId>
-    <artifactId>id3-web</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>id3-web</name>
-    <description>ID3 Decision Tree with Weka</description>
-    <properties>
-        <java.version>17</java.version>
-    </properties>
+<project ...>
+    ...
     <repositories>
-        <repository>
-            <id>waikato</id>
-            <name>Waikato Repository</name>
-            <url>https://repo.cms.waikato.ac.nz/nexus/content/groups/ubuntu/</url>
-        </repository>
+        <!-- Elimina el repositorio de Waikato para que no intente descargar -->
     </repositories>
     <dependencies>
+        <!-- Otras dependencias de Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -34,23 +14,34 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        <!-- Weka dependencia estable -->
-        <dependency>
-                 <groupId>nz.ac.waikato.cms.weka</groupId>
-                 <artifactId>weka-monolithic</artifactId>
-                 <version>3.8.0</version>
-                 <scope>system</scope>
-                 <systemPath>${project.basedir}/src/main/resources/lib/weka-3-8-0-monolithic.jar</systemPath>
-        </dependency>
+        <!-- No declaramos la dependencia de Weka aquí, la instalaremos manualmente -->
     </dependencies>
     <build>
         <plugins>
             <plugin>
-                     <groupId>org.springframework.boot</groupId>
-                     <artifactId>spring-boot-maven-plugin</artifactId>
-                     <configuration>
-                              <includeSystemScope>true</includeSystemScope>
-                     </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>install-weka</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/src/main/resources/lib/weka-3-8-0-monolithic.jar</file>
+                            <groupId>nz.ac.waikato.cms.weka</groupId>
+                            <artifactId>weka-monolithic</artifactId>
+                            <version>3.8.0</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
