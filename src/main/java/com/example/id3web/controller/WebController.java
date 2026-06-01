@@ -4,7 +4,6 @@ import com.example.id3web.service.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -16,66 +15,39 @@ public class WebController {
     private ModelService modelService;
 
     @GetMapping("/")
-    public String index() {
-        return "forward:/index.html";
-    }
+    public String index() { return "forward:/index.html"; }
 
     @GetMapping("/api/tree/dot")
-    public ResponseEntity<String> getTreeDot() {
-        return ResponseEntity.ok(modelService.getTreeDot());
-    }
+    public ResponseEntity<String> getTreeDot() { return ResponseEntity.ok(modelService.getTreeDot()); }
 
     @GetMapping("/api/gains")
-    public ResponseEntity<Map<String, Object>> getGains() {
-        return ResponseEntity.ok(modelService.getGainInfo());
-    }
+    public ResponseEntity<Map<String, Object>> getGains() { return ResponseEntity.ok(modelService.getGainInfo()); }
 
     @GetMapping("/api/dataset")
     public ResponseEntity<Map<String, Object>> getDataset() {
-        weka.core.Instances data = modelService.getData();
-        List<String> attributeNames = IntStream.range(0, data.numAttributes())
-                .mapToObj(i -> data.attribute(i).name())
-                .collect(Collectors.toList());
-
+        var data = modelService.getData();
+        List<String> attrs = IntStream.range(0, data.numAttributes()).mapToObj(i -> data.attribute(i).name()).collect(Collectors.toList());
         List<Map<String, String>> rows = new ArrayList<>();
-        for (weka.core.Instance inst : data) {
+        for (Instance inst : data) {
             Map<String, String> row = new HashMap<>();
-            for (int i = 0; i < data.numAttributes(); i++) {
-                row.put(data.attribute(i).name(), inst.stringValue(data.attribute(i)));
-            }
+            for (int i = 0; i < data.numAttributes(); i++) row.put(data.attribute(i).name(), inst.stringValue(data.attribute(i)));
             rows.add(row);
         }
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("attributes", attributeNames);
-        response.put("rows", rows);
-        response.put("classAttribute", data.classAttribute().name());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(Map.of("attributes", attrs, "rows", rows, "classAttribute", data.classAttribute().name()));
     }
 
     @PostMapping("/api/predict")
-    public ResponseEntity<Map<String, String>> predict(
-            @RequestParam String Temperatura,
-            @RequestParam String Humedad,
-            @RequestParam String Viento) {
+    public ResponseEntity<Map<String, String>> predict(@RequestParam String Temperatura, @RequestParam String Humedad, @RequestParam String Viento) {
         try {
-            String prediction = modelService.predict(Temperatura, Humedad, Viento);
-            Map<String, String> response = new HashMap<>();
-            response.put("prediction", prediction);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.badRequest().body(error);
-        }
+            String pred = modelService.predict(Temperatura, Humedad, Viento);
+            return ResponseEntity.ok(Map.of("prediction", pred));
+        } catch (Exception e) { return ResponseEntity.badRequest().body(Map.of("error", e.getMessage())); }
     }
 
     @GetMapping("/api/attributes")
     public ResponseEntity<Map<String, List<String>>> getAttributes() {
         Map<String, List<String>> attrMap = new HashMap<>();
-        for (String attrName : modelService.getAttributeNames()) {
-            attrMap.put(attrName, modelService.getAttributeValues(attrName));
-        }
+        for (String attr : modelService.getAttributeNames()) attrMap.put(attr, modelService.getAttributeValues(attr));
         return ResponseEntity.ok(attrMap);
     }
 }
