@@ -2,9 +2,11 @@
 FROM maven:3.8.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline
+# Descarga todas las dependencias (incluyendo weka-dev)
+RUN mvn dependency:go-offline -B
 COPY src ./src
-RUN mvn package -DskipTests
+# Compila y empaqueta
+RUN mvn clean package -DskipTests
 
 # Etapa de ejecución
 FROM eclipse-temurin:17-jre-jammy
